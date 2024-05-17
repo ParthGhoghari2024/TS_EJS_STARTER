@@ -2,7 +2,7 @@ interface basicDetailsInterace {
   [Key: string]: FormDataEntryValue;
 }
 enum basicDetails {
-  name,
+  fullName,
   email,
   address,
   city,
@@ -18,8 +18,11 @@ const validateForm = (
 ): failedValidationObjType => {
   const failedValidationObj: failedValidationObjType = {};
 
-  if (!basicDetailsObj.name || basicDetailsObj.name.toString().length === 0)
-    failedValidationObj[basicDetails.name] = "name";
+  if (
+    !basicDetailsObj.fullName ||
+    basicDetailsObj.fullName.toString().length === 0
+  )
+    failedValidationObj[basicDetails.fullName] = "fullName";
   if (!basicDetailsObj.email || basicDetailsObj.email.toString().length === 0)
     failedValidationObj[basicDetails.email] = "email";
   if (
@@ -30,7 +33,13 @@ const validateForm = (
   if (!basicDetailsObj.city || basicDetailsObj.city.toString().length === 0)
     failedValidationObj[basicDetails.city] = "city";
 
-  console.log(failedValidationObj);
+  if (
+    !basicDetailsObj.zipcode ||
+    (basicDetailsObj.zipcode &&
+      (isNaN(parseInt(basicDetailsObj.zipcode.toString())) ||
+        basicDetailsObj.zipcode.toString().length != 6))
+  )
+    failedValidationObj[basicDetails.zipcode] = "zipcode";
 
   return failedValidationObj;
 };
@@ -47,15 +56,18 @@ const submitBasicForm = async () => {
     basicDetailsObj[key] = val;
   }
 
-  console.log(basicDetailsObj);
+  // console.log(basicDetailsObj);
 
   const validationResult: failedValidationObjType =
     validateForm(basicDetailsObj);
 
   console.log("rs", validationResult);
-  return;
+  if (!validationResult || Object.values(validationResult).length !== 0) {
+    alert("validation failed");
+    return;
+  }
 
-  const basicDetailsFetchResult = await fetch("/", {
+  const basicDetailsFetchResult = await fetch(`/`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",

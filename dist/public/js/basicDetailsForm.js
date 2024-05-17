@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var basicDetails;
 (function (basicDetails) {
-    basicDetails[basicDetails["name"] = 0] = "name";
+    basicDetails[basicDetails["fullName"] = 0] = "fullName";
     basicDetails[basicDetails["email"] = 1] = "email";
     basicDetails[basicDetails["address"] = 2] = "address";
     basicDetails[basicDetails["city"] = 3] = "city";
@@ -18,8 +18,9 @@ var basicDetails;
 })(basicDetails || (basicDetails = {}));
 const validateForm = (basicDetailsObj) => {
     const failedValidationObj = {};
-    if (!basicDetailsObj.name || basicDetailsObj.name.toString().length === 0)
-        failedValidationObj[basicDetails.name] = "name";
+    if (!basicDetailsObj.fullName ||
+        basicDetailsObj.fullName.toString().length === 0)
+        failedValidationObj[basicDetails.fullName] = "fullName";
     if (!basicDetailsObj.email || basicDetailsObj.email.toString().length === 0)
         failedValidationObj[basicDetails.email] = "email";
     if (!basicDetailsObj.address ||
@@ -27,7 +28,11 @@ const validateForm = (basicDetailsObj) => {
         failedValidationObj[basicDetails.address] = "address";
     if (!basicDetailsObj.city || basicDetailsObj.city.toString().length === 0)
         failedValidationObj[basicDetails.city] = "city";
-    console.log(failedValidationObj);
+    if (!basicDetailsObj.zipcode ||
+        (basicDetailsObj.zipcode &&
+            (isNaN(parseInt(basicDetailsObj.zipcode.toString())) ||
+                basicDetailsObj.zipcode.toString().length != 6)))
+        failedValidationObj[basicDetails.zipcode] = "zipcode";
     return failedValidationObj;
 };
 const submitBasicForm = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,11 +45,14 @@ const submitBasicForm = () => __awaiter(void 0, void 0, void 0, function* () {
         }
         basicDetailsObj[key] = val;
     }
-    console.log(basicDetailsObj);
+    // console.log(basicDetailsObj);
     const validationResult = validateForm(basicDetailsObj);
     console.log("rs", validationResult);
-    return;
-    const basicDetailsFetchResult = yield fetch("/", {
+    if (!validationResult || Object.values(validationResult).length !== 0) {
+        alert("validation failed");
+        return;
+    }
+    const basicDetailsFetchResult = yield fetch(`/`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

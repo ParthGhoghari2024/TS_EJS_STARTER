@@ -16,7 +16,7 @@ import cors from "cors";
 import { corsOptionsInterface } from "./types/interfaces";
 
 const corsOptions: corsOptionsInterface = {
-  origin: [],
+  origin: [""],
 };
 
 app.use(cors(corsOptions));
@@ -25,7 +25,6 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 import formRouter from "./routes/basicDetailsFormRoutes";
-import { log } from "console";
 
 app.use("/", formRouter);
 

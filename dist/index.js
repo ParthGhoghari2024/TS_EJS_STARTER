@@ -14,7 +14,7 @@ app.use((0, cookie_parser_1.default)());
 const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 const corsOptions = {
-    origin: [],
+    origin: [""],
 };
 app.use((0, cors_1.default)(corsOptions));
 app.set("view engine", "ejs");

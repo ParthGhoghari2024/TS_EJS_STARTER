@@ -73,4 +73,5 @@ export {
   basicDetailsFormPageController,
   basicDetailsFormPostController,
   getAllBasicDetailsController,
+  BasicDetailsFormInterface,
 };
