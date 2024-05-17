@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());
 
 app.use(cookieParser());
@@ -24,6 +25,7 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 import formRouter from "./routes/basicDetailsFormRoutes";
+import { log } from "console";
 
 app.use("/", formRouter);
 
