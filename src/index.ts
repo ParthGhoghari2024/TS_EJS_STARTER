@@ -4,8 +4,6 @@ const app = express();
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
-// import copyAssets from "./utils/copyAssets";
-// copyAssets();
 dotenv.config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -14,7 +12,9 @@ app.use(cookieParser());
 import path from "path";
 
 import cors from "cors";
-const corsOptions = {
+import { corsOptionsInterface } from "./types/interfaces";
+
+const corsOptions: corsOptionsInterface = {
   origin: [],
 };
 

@@ -7,8 +7,6 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
-// import copyAssets from "./utils/copyAssets";
-// copyAssets();
 dotenv_1.default.config();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
